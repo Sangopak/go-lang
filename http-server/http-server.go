@@ -6,7 +6,7 @@ import (
 )
 
 func hello(w http.ResponseWriter, req *http.Request) {
-    fmt.Fprintf(w, "hello\n")
+    fmt.Fprintf(w, "{\"message\":\"hello\"}")
 }
 
 func headers(w http.ResponseWriter, req *http.Request) {
@@ -23,4 +23,5 @@ func main() {
     http.HandleFunc("/headers", headers)
 
     http.ListenAndServe(":8090", nil)
+    fmt.Println("server started")
 }
