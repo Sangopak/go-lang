@@ -19,9 +19,12 @@ func headers(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+    const port string = "8090"
+    const host string = ":"
+
     http.HandleFunc("/hello", hello)
     http.HandleFunc("/headers", headers)
 
-    http.ListenAndServe(":8090", nil)
-    fmt.Println("server started")
+    fmt.Println("server starting at", port)
+    http.ListenAndServe(host + port, nil)
 }
