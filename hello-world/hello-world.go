@@ -1,11 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"errors"
+)
 
-func HelloWorld() {
-	fmt.Println("Hello World!!")
+func HelloWorld(name string) (string, error) {
+	if name == "" {
+		return "", errors.New("name can not be empty")
+	}
+	response := "Hello World!! "+ name
+	fmt.Println(response)
+	return response, nil
 }
 
 func main() {
-	HelloWorld()
+	HelloWorld("Sango")
 }
