@@ -1,14 +1,15 @@
 package main
 
 import (
-    "bufio"
-    "fmt"
-    "net/http"
+	"bufio"
+	"errors"
+	"fmt"
+	"net/http"
 )
 
 func main() {
 
-    resp, err := http.Get("http://localhost:8090/hello")
+    resp, err := GetHttp("http://localhost:8090/hello")
     if err != nil {
         panic(err)
     }
@@ -24,4 +25,11 @@ func main() {
     if err := scanner.Err(); err != nil {
         panic(err)
     }
+}
+
+func GetHttp(endpoint string) (*http.Response, error){
+    if endpoint == "" {
+        return nil, errors.New("endpoint can not be empty")
+    }
+    return http.Get(endpoint)
 }
