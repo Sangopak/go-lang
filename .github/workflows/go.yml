@@ -31,7 +31,7 @@ jobs:
       env:
         DUMMY_SECRET: ${{secrets.SECRET_USER}}
       run: |
-        echo "Just checking secret variable $DUMMY_SECRET"
+        echo "Just checking secret variable ${{secrets.SECRET_USER}}"
 
     - name: Build
       run: go build -v ./...
