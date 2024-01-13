@@ -24,12 +24,14 @@ jobs:
     - name: Print env variables
       env:
         REGION: ${{vars.ENV_REGION}}
-      run: echo "Just checking env variable $REGION"
+      run: |
+        echo "Just checking env variable $REGION"
 
     - name: Print secret variables
       env:
         DUMMY_SECRET: ${{secrets.SECRET_USER}}
-      run: echo "Just checking secret variable $DUMMY_SECRET"
+      run: |
+        echo "Just checking secret variable $DUMMY_SECRET"
 
     - name: Build
       run: go build -v ./...
