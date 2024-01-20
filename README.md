@@ -32,3 +32,8 @@ Run the below command where you have the BenchMark test example
 ```
 go test -bench=.
 ```
+### Running Profileing tool
+1. `cd` to the directory where Benchmark test is present, example `cd /Users/sangopakkundu/workspace/go-lang/src/http/client`
+2. Run the below command that runs the benchmark test in current directory and creates CPU and Memory profile
+`go test -cpuprofile cpu.dot -memprofile mem.dot -bench .`
+3. 
