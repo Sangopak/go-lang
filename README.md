@@ -12,4 +12,23 @@
 3. You can get a lot of examples https://gobyexample.com/
 4. Setup the GOROOT and GOPATH env variables
 ## Run Go program
+Run the below command from root folder
+```
+go run src/cmd/main.go
+```
 ## Build Go program
+Run the below command from root folder
+```
+go build -v ./...
+```
+## Run Tests
+Run the below command from root folder
+```
+go test -v ./...
+```
+### For Benchmark Testing
+Run the below command where you have the BenchMark test example
+/Users/sangopakkundu/workspace/go-lang/src/http/client
+```
+go test -bench=.
+```
