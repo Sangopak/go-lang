@@ -1,41 +1,56 @@
 package src
 
- import (
- 	"errors"
- 	"fmt"
- 	"strings"
- 	"testing"
+import (
+	"errors"
+	"fmt"
+	"strings"
+	"testing"
 
- 	"github.com/jarcoal/httpmock"
- )
+	"github.com/jarcoal/httpmock"
+)
 
- var TestEndpoint string = "http://localhost:8090/hello"
- func TestGetGttpSuccess(t *testing.T) {
- 	httpmock.Activate()
-   	defer httpmock.DeactivateAndReset()
+var TestEndpoint string = "http://localhost:8090/hello"
 
- 	// Exact URL match with success
- 	httpmock.RegisterResponder("GET", TestEndpoint,
-     httpmock.NewStringResponder(200, `{"message":"hello"}`))
+func TestGetGttpSuccess(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
 
- 	actualResponse, _ := GetHttp(TestEndpoint)
+	// Exact URL match with success
+	httpmock.RegisterResponder("GET", TestEndpoint,
+		httpmock.NewStringResponder(200, `{"message":"hello"}`))
 
- 	if actualResponse.Status != "200" {
- 		t.Error("Did not get the correct Http status 200")
- 	}
- }
+	actualResponse, _ := GetHttp(TestEndpoint)
 
- func TestGetHttpFailure(t *testing.T) {
- 	httpmock.Activate()
- 	defer httpmock.DeactivateAndReset()
+	if actualResponse.Status != "200" {
+		t.Error("Did not get the correct Http status 200")
+	}
+}
 
-   	// Exact URL match with an error
-   	httpmock.RegisterResponder("GET", TestEndpoint,
- 	httpmock.NewErrorResponder(errors.New("500 Internal Server Error")))
+func TestGetHttpFailure(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
 
- 	_, actualError := GetHttp(TestEndpoint)
- 	errorMessage := fmt.Sprint(actualError)
- 	if !strings.Contains(errorMessage, "500 Internal Server Error"){
- 		t.Error("Did not get the 500 error")
- 	}
- } 
+	// Exact URL match with an error
+	httpmock.RegisterResponder("GET", TestEndpoint,
+		httpmock.NewErrorResponder(errors.New("500 Internal Server Error")))
+
+	_, actualError := GetHttp(TestEndpoint)
+	errorMessage := fmt.Sprint(actualError)
+	if !strings.Contains(errorMessage, "500 Internal Server Error") {
+		t.Error("Did not get the 500 error")
+	}
+}
+
+func BenchmarkGetHttp(b *testing.B) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	// Exact URL match with success
+	httpmock.RegisterResponder("GET", TestEndpoint,
+		httpmock.NewStringResponder(200, `{"message":"hello"}`))
+
+	for i := 0; i < b.N; i++ {
+		GetHttp(TestEndpoint)
+	}
+
+}
