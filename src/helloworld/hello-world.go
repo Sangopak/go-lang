@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"fmt"
@@ -12,8 +12,4 @@ func HelloWorld(name string) (string, error) {
 	response := "Hello World!! "+ name
 	fmt.Println(response)
 	return response, nil
-}
-
-func main() {
-	HelloWorld("Sango")
 }
