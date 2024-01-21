@@ -1,0 +1,9 @@
+coverage.out
+coverage.txt
+.tmp/
+.git-dist/
+.vscode
+*.test
+*.dot
+*.prof
+*.DS_Store
