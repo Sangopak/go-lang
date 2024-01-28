@@ -26,6 +26,7 @@ func main() {
 	router.GET("/", resources.GetHeatlhCheck)
 	router.GET("/todos", resources.GetTodos)
 	router.GET("/todos/:id", resources.GetTodosById)
+	router.POST("/todos", resources.PostTodo)
 
 	router.Run()
 }
