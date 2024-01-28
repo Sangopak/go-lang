@@ -8,79 +8,106 @@ import (
 	"github.com/sango-poc-go/src/api/model"
 )
 
-var todos = []model.Todo{
-	{Id: 1, Detail: "Do taxes", Finished: false},
-	{Id: 2, Detail: "Vaccum first floor", Finished: false},
+var (
+	todoMap = make(map[int]model.Todo)
+)
+
+func initializeTodos(){
+	log.Println("Initializing todo")
+
+	todoMap[1] = model.Todo{
+		Id: 1, Detail: "Do taxes", Finished: false,
+	}
+	todoMap[2] = model.Todo{
+		Id: 2, Detail: "Vaccum first floor", Finished: false,
+	}
 }
 
+
 func AllTodos() ([]model.Todo, error){
-	if len(todos) == 0 {
+	initializeTodos()
+
+	if len(todoMap) == 0 {
 		return nil, errors.New("no todos found")
 	}else {
+		var todos []model.Todo
+
+		for k := range todoMap {
+			todos = append(todos, todoMap[k])
+		}
 		return todos, nil
 	}
 }
 
 func GetTodoById(id int ) ([]model.Todo, error){
-	if len(todos) == 0 {
+	initializeTodos()
+
+	if len(todoMap) == 0 {
 		return nil, errors.New("no todos found")
 	}else {
-		todo := []model.Todo{}
-		for _, t := range todos {
-			if t.Id == id {
-				todo = append(todo, t)
-			}
-		}
-		if len(todo) == 0 {
+		var todos []model.Todo
+		_, exists := todoMap[id]
+		if !exists {
 			return nil, fmt.Errorf("no todo with id %d found", id)
-		} else {
-			return todo, nil
+		}else {
+			todos = append(todos, todoMap[id])
+			return todos, nil
 		}
 	}
 }
 
 func AddTodo(newTodo model.Todo) error {
-	for _, t := range todos {
-		if t.Id == newTodo.Id {
-			return fmt.Errorf("todo with id %d exists", newTodo.Id)
-		}
+	initializeTodos()
+
+	 _, exists := todoMap[newTodo.Id]
+	if exists {
+		return fmt.Errorf("todo with id %d exists", newTodo.Id)
+	}else {
+		todoMap[newTodo.Id] = newTodo
+		return nil
 	}
-	todos = append(todos, newTodo)
-	return nil
 }
 
 func UpdateTodo(newTodo model.Todo ) ([]model.Todo, error){
-	if len(todos) == 0 {
+	initializeTodos()
+
+	if len(todoMap) == 0 {
 		return nil, errors.New("no todos found")
 	}else {
-		newTodos := []model.Todo{}
-		for _, t := range todos {
-			if t.Id == newTodo.Id {
-				newTodos = append(newTodos, newTodo)
-			}else {
-				newTodos = append(newTodos, t)
-			}
-		}
-		if len(newTodos) == 0 {
+		_, exists := todoMap[newTodo.Id]
+		if !exists {
 			return nil, fmt.Errorf("no todo with id %d found", newTodo.Id)
-		} else {
-			return newTodos, nil
+		}else {
+			todoMap[newTodo.Id] = newTodo
+
+			var todos []model.Todo
+
+			for k ,_ := range todoMap {
+				todos = append(todos, todoMap[k])
+			}
+			return todos, nil
 		}
 	}
 }
 
 func DeleteTodoById(id int) ([]model.Todo, error){
-	if len(todos) == 0 {
+	initializeTodos()
+
+	if len(todoMap) == 0 {
 		return nil, errors.New("no todos found")
-	}else {
-		newTodos := []model.Todo{}
-		for _, t := range todos {
-			if t.Id == id {
-				log.Printf("Found todo with id %d will delete the same", id)
+		}else {
+			_, exists := todoMap[id]
+			if !exists {
+				return nil, fmt.Errorf("no todo with id %d found", id)
 			}else {
-				newTodos = append(newTodos, t)
+				delete(todoMap, id)
+	
+				var todos []model.Todo
+	
+				for k := range todoMap {
+					todos = append(todos, todoMap[k])
+				}
+				return todos, nil
 			}
 		}
-		return newTodos, nil
-	}
 }
