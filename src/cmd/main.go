@@ -27,6 +27,8 @@ func main() {
 	router.GET("/todos", resources.GetTodos)
 	router.GET("/todos/:id", resources.GetTodosById)
 	router.POST("/todos", resources.PostTodo)
+	router.PATCH("/todos", resources.UpdateTodo)
+	router.DELETE("/todos/:id", resources.DeleteTodoById)
 
 	router.Run()
 }

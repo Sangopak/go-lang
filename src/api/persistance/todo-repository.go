@@ -3,6 +3,7 @@ package persistance
 import (
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/sango-poc-go/src/api/model"
 )
@@ -46,4 +47,40 @@ func AddTodo(newTodo model.Todo) error {
 	}
 	todos = append(todos, newTodo)
 	return nil
+}
+
+func UpdateTodo(newTodo model.Todo ) ([]model.Todo, error){
+	if len(todos) == 0 {
+		return nil, errors.New("no todos found")
+	}else {
+		newTodos := []model.Todo{}
+		for _, t := range todos {
+			if t.Id == newTodo.Id {
+				newTodos = append(newTodos, newTodo)
+			}else {
+				newTodos = append(newTodos, t)
+			}
+		}
+		if len(newTodos) == 0 {
+			return nil, fmt.Errorf("no todo with id %d found", newTodo.Id)
+		} else {
+			return newTodos, nil
+		}
+	}
+}
+
+func DeleteTodoById(id int) ([]model.Todo, error){
+	if len(todos) == 0 {
+		return nil, errors.New("no todos found")
+	}else {
+		newTodos := []model.Todo{}
+		for _, t := range todos {
+			if t.Id == id {
+				log.Printf("Found todo with id %d will delete the same", id)
+			}else {
+				newTodos = append(newTodos, t)
+			}
+		}
+		return newTodos, nil
+	}
 }
