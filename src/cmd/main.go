@@ -6,11 +6,11 @@ import (
 	// httpServer "github.com/sango-poc-go/src/http/server"
 	// httpClient "github.com/sango-poc-go/src/http/client"
 
+	resources "github.com/sango-poc-go/src/api/resources"
 	ginServer "github.com/sango-poc-go/src/api/server"
-	heatlhCheck "github.com/sango-poc-go/src/api/resources"
 )
 
-func main(){
+func main() {
 	//simple hello world
 	//helloworld.HelloWorld("Sango")
 
@@ -18,12 +18,14 @@ func main(){
 	//threadExample.ThreadExample()
 
 	// run the server in a different thread once the client code runs it will be stopped
-	// go httpServer.HttpServerExample() 
+	// go httpServer.HttpServerExample()
 	// httpClient.HttpClientExample()
 
 	//run a gin server
 	router := ginServer.CreateDefaultRouter()
-	router.GET("/",heatlhCheck.HeatlhCheck)
+	router.GET("/", resources.GetHeatlhCheck)
+	router.GET("/todos", resources.GetTodos)
+	router.GET("/todos/:id", resources.GetTodosById)
 
 	router.Run()
 }
