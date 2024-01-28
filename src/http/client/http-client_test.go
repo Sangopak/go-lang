@@ -7,11 +7,13 @@ import (
 	"testing"
 
 	"github.com/jarcoal/httpmock"
+	"github.com/stretchr/testify/assert"
 )
 
 var TestEndpoint string = "http://localhost:8090/hello"
 
 func TestGetGttpSuccess(t *testing.T) {
+	expectedResponse := "200"
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -21,12 +23,11 @@ func TestGetGttpSuccess(t *testing.T) {
 
 	actualResponse, _ := GetHttp(TestEndpoint)
 
-	if actualResponse.Status != "200" {
-		t.Error("Did not get the correct Http status 200")
-	}
+	assert.Equal(t, expectedResponse, actualResponse.Status, "Did not get the correct Http status 200")
 }
 
 func TestGetHttpFailure(t *testing.T) {
+	expectedResponse := "500 Internal Server Error"
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -36,9 +37,8 @@ func TestGetHttpFailure(t *testing.T) {
 
 	_, actualError := GetHttp(TestEndpoint)
 	errorMessage := fmt.Sprint(actualError)
-	if !strings.Contains(errorMessage, "500 Internal Server Error") {
-		t.Error("Did not get the 500 error")
-	}
+
+	assert.True(t, strings.Contains(errorMessage, expectedResponse), "Did not get the 500 error")
 }
 
 func BenchmarkGetHttp(b *testing.B) {

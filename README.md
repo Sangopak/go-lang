@@ -36,6 +36,9 @@ go test -bench=.
 1. `cd` to the directory where Benchmark test is present, example `cd /Users/sangopakkundu/workspace/go-lang/src/http/client`
 2. Run the below command that runs the benchmark test in current directory and creates CPU and Memory profile
 `go test -cpuprofile cpu.prof -memprofile mem.prof -bench .`
-3. Profile can be visualized using below command
+3. Profile can be visualized using below command using Graphviz plugin
 `go tool pprof --dot cpu.prof>cpu.dot`
 `go tool pprof --dot mem.prof>mem.dot`
+4. You can install Graphviz in Mac by `brew install graphviz` and then run below command to visualize profile in browser
+`go tool pprof -http=":8080" cpu.prof`
+`go tool pprof -http=":8080" mem.prof`

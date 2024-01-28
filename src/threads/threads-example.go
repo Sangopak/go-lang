@@ -2,7 +2,7 @@ package thread
 
 import (
 	"fmt"
-	helloworld "github.com/sango-poc-go/src/helloworld"
+	helloworld "github.com/sango-poc-go/src/hello-world"
 	//"time"
 )
 
