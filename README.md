@@ -42,3 +42,7 @@ go test -bench=.
 4. You can install Graphviz in Mac by `brew install graphviz` and then run below command to visualize profile in browser
 `go tool pprof -http=":8080" cpu.prof`
 `go tool pprof -http=":8080" mem.prof`
+
+#### If you get TCP port already in use error on Mac
+`lsof -i -P | grep LISTEN | grep 8080`
+and then `kill -9 PID` 
